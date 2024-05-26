@@ -1,7 +1,7 @@
-import { Sequelize } from "sequelize-typescript";
+import {Sequelize} from "sequelize-typescript";
 import InvoiceFacadeFactory from "../factory/invoice.facade.factory";
-import { InvoiceModel } from "../repository/invoice.model";
-import { InvoiceItemModel } from "../repository/item.model";
+import InvoiceModel from "../repository/invoice.model";
+import InvoiceItemModel from "../repository/item.model";
 
 describe("InvoiceFacade test", () => {
     let sequelize: Sequelize;
@@ -11,10 +11,10 @@ describe("InvoiceFacade test", () => {
             dialect: "sqlite",
             storage: ":memory:",
             logging: false,
-            sync: { force: true },
+            sync: {force: true},
         });
 
-        await sequelize.addModels([InvoiceModel, InvoiceItemModel]);
+        sequelize.addModels([InvoiceItemModel, InvoiceModel]);
         await sequelize.sync();
     });
 
@@ -48,7 +48,7 @@ describe("InvoiceFacade test", () => {
 
         const facade = InvoiceFacadeFactory.create();
 
-        const output = await facade.create(input);
+        const output = await facade.generate(input);
 
         expect(output).toBeDefined();
         expect(output.id).toBeDefined();
@@ -91,8 +91,8 @@ describe("InvoiceFacade test", () => {
         };
 
         const facade = InvoiceFacadeFactory.create();
-        const output = await facade.create(input);
-        const found = await facade.find(output.id);
+        const output = await facade.generate(input);
+        const found = await facade.find(output);
 
         expect(found).toBeDefined();
         expect(found.id).toBeDefined();

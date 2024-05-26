@@ -1,25 +1,30 @@
 import UseCaseInterface from "../../@shared/usecase/use-case.interface";
-import InvoiceGateway from "../gateway/invoice.gateway";
-import InvoiceFacadeInterface, {
-    FindInvoiceFacadeOutputDTO,
-    GenerateInvoiceFacadeInputDto,
-    GenerateInvoiceFacadeOutputDto,
-} from "./invoice.facade.interface";
+import {InvoiceFacadeInterface} from "./invoice.facade.interface";
+import {
+    GenerateInvoiceUseCaseInputDto,
+    GenerateInvoiceUseCaseOutputDto
+} from "../usecase/generate/generate.usecase.dto";
+import {FindInvoiceUseCaseInputDTO, FindInvoiceUseCaseOutputDTO} from "../usecase/find/find.usecase.dto";
+
+export interface UseCaseProps {
+    find: UseCaseInterface;
+    generate: UseCaseInterface
+}
 
 export default class InvoiceFacade implements InvoiceFacadeInterface {
-    constructor(
-        private _invoiceRepository: InvoiceGateway,
-        private _generateInvoiceUseCase: UseCaseInterface,
-        private _findInvoiceUseCase: UseCaseInterface
-    ) {}
+    private _findInvoiceUseCase: UseCaseInterface;
+    private _generateInvoiceUseCase: UseCaseInterface;
 
-    async create(
-        invoice: GenerateInvoiceFacadeInputDto
-    ): Promise<GenerateInvoiceFacadeOutputDto> {
-        return await this._generateInvoiceUseCase.execute(invoice);
+    constructor(usecaseProps: UseCaseProps) {
+        this._findInvoiceUseCase = usecaseProps.find;
+        this._generateInvoiceUseCase = usecaseProps.generate;
     }
 
-    async find(invoiceId: string): Promise<FindInvoiceFacadeOutputDTO> {
-        return await this._findInvoiceUseCase.execute({ id: invoiceId });
+    async generate(input: GenerateInvoiceUseCaseInputDto): Promise<GenerateInvoiceUseCaseOutputDto> {
+        return await this._generateInvoiceUseCase.execute(input);
+    }
+
+    async find(input: FindInvoiceUseCaseInputDTO): Promise<FindInvoiceUseCaseOutputDTO> {
+        return await this._findInvoiceUseCase.execute(input);
     }
 }

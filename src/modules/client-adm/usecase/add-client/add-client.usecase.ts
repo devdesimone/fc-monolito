@@ -19,15 +19,13 @@ export default class AddClientUseCase {
       name: input.name,
       email: input.email,
       document: input.document,
-      address: new Address(
-        input.address.street,
-        input.address.number,
-        input.address.complement,
-        input.address.city,
-        input.address.state,
-        input.address.zipCode,
-      )
-    }
+      street: input.street,
+      city: input.city,
+      complement: input.complement,
+      number: input.number,
+      state: input.state,
+      zipCode: input.zipCode,
+    };
 
     const client = new Client(props)
     await this._clientRepository.add(client)
@@ -37,16 +35,14 @@ export default class AddClientUseCase {
       name: client.name,
       email: client.email,
       document: client.document,
-      address: new Address(
-        client.address.street,
-        client.address.number,
-        client.address.complement,
-        client.address.city,
-        client.address.state,
-        client.address.zipCode,
-      ),
+      street: client.street,
+      city: client.city,
+      complement: client.complement,
+      number: client.number,
+      state: client.state,
+      zipCode: client.zipCode,
       createdAt: client.createdAt,
-      updatedAt: client.updatedAt
+      updatedAt: client.updatedAt,
     }
   }
 }

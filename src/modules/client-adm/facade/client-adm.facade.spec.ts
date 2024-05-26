@@ -38,17 +38,16 @@ describe("Client Adm Facade test", () => {
 
     const input = {
       id: "1",
-      name: "Lucian",
-      email: "lucian@xpto.com",
-      document: "1234-5678",
-      address: new Address(
-        "Rua 123",
-        "99",
-        "Casa Verde",
-        "Criciúma",
-        "SC",
-        "88888-888",
-      )
+      name: "Client 1",
+      email: "x@x.com",
+      document: "Document 1",
+      address: "Address 1",
+      street: "Street 1",
+      number: "Number 1",
+      complement: "Complement 1",
+      city: "City 1",
+      state: "State 1",
+      zipCode: "123",
     }
 
     await facade.add(input)
@@ -60,34 +59,25 @@ describe("Client Adm Facade test", () => {
     expect(client.name).toBe(input.name)
     expect(client.email).toBe(input.email)
     expect(client.document).toBe(input.document)
-    expect(client.street).toBe(input.address.street)
+    expect(client.street).toBe(input.street)
   })
 
   it("should find a client", async () => {
-
-    // const repository = new ClientRepository()
-    // const addUsecase = new AddClientUseCase(repository)
-    // const findUseCase = new FindClientUseCase(repository)
-    // const facade = new ClientAdmFacade({
-    //   addUseCase: addUsecase,
-    //   findUseCase: findUseCase
-    // })
 
     const facade = ClientAdmFacadeFactory.create()
 
     const input = {
       id: "1",
-      name: "Lucian",
-      email: "lucian@xpto.com",
-      document: "1234-5678",
-      address: new Address(
-        "Rua 123",
-        "99",
-        "Casa Verde",
-        "Criciúma",
-        "SC",
-        "88888-888"
-      )
+      name: "Client 1",
+      email: "x@x.com",
+      document: "Document 1",
+      address: "Address 1",
+      street: "Street 1",
+      number: "Number 1",
+      complement: "Complement 1",
+      city: "City 1",
+      state: "State 1",
+      zipCode: "123",
     }
 
     await facade.add(input)
@@ -99,11 +89,11 @@ describe("Client Adm Facade test", () => {
     expect(client.name).toBe(input.name)
     expect(client.email).toBe(input.email)
     expect(client.document).toBe(input.document)
-    expect(client.address.street).toBe(input.address.street)
-    expect(client.address.number).toBe(input.address.number)
-    expect(client.address.complement).toBe(input.address.complement)
-    expect(client.address.city).toBe(input.address.city)
-    expect(client.address.state).toBe(input.address.state)
-    expect(client.address.zipCode).toBe(input.address.zipCode)
+    expect(client.street).toBe(input.street)
+    expect(client.number).toBe(input.number)
+    expect(client.complement).toBe(input.complement)
+    expect(client.city).toBe(input.city)
+    expect(client.state).toBe(input.state)
+    expect(client.zipCode).toBe(input.zipCode)
   })
 })

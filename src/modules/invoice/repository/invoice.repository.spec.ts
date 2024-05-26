@@ -1,11 +1,11 @@
-import { Sequelize } from "sequelize-typescript";
+import {Sequelize} from "sequelize-typescript";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Address from "../domain/address.vo";
 import Invoice from "../domain/invoice.entity";
 import Product from "../domain/product.entity";
-import { InvoiceModel } from "./invoice.model";
+import InvoiceModel from "./invoice.model";
+import InvoiceItemModel from "./item.model";
 import InvoiceRepository from "./invoice.repository";
-import { InvoiceItemModel } from "./item.model";
 
 describe("InvoiceRepository test", () => {
     let sequelize: Sequelize;
@@ -15,10 +15,10 @@ describe("InvoiceRepository test", () => {
             dialect: "sqlite",
             storage: ":memory:",
             logging: false,
-            sync: { force: true },
+            sync: {force: true},
         });
 
-        await sequelize.addModels([InvoiceModel, InvoiceItemModel]);
+        sequelize.addModels([InvoiceItemModel, InvoiceModel]);
         await sequelize.sync();
     });
 
@@ -56,27 +56,29 @@ describe("InvoiceRepository test", () => {
         await repository.create(invoice);
 
         const result = await InvoiceModel.findOne({
-            where: { id: "1" },
+            where: {id: "1"},
             include: [InvoiceItemModel],
         });
 
-        expect(result).toBeDefined();
-        expect(result.id).toBe(invoice.id.id);
-        expect(result.name).toBe(invoice.name);
-        expect(result.document).toBe(invoice.document);
-        expect(result.street).toBe(invoice.address.street);
-        expect(result.number).toBe(invoice.address.number);
-        expect(result.complement).toBe(invoice.address.complement);
-        expect(result.city).toBe(invoice.address.city);
-        expect(result.state).toBe(invoice.address.state);
-        expect(result.zipcode).toBe(invoice.address.zipCode);
-        expect(result.items[0].id).toBe(invoice.items[0].id.id);
-        expect(result.items[0].name).toBe(invoice.items[0].name);
-        expect(result.items[0].price).toBe(invoice.items[0].price);
-        expect(result.items[1].id).toBe(invoice.items[1].id.id);
-        expect(result.items[1].name).toBe(invoice.items[1].name);
-        expect(result.items[1].price).toBe(invoice.items[1].price);
-        expect(result.total).toBe(30);
+        const invoiceData = result.dataValues;
+        invoiceData.items = invoiceData.items.map((item: any) => item.dataValues);
+        expect(invoiceData).toBeDefined();
+        expect(invoiceData.id).toBe(invoice.id.id);
+        expect(invoiceData.name).toBe(invoice.name);
+        expect(invoiceData.document).toBe(invoice.document);
+        expect(invoiceData.street).toBe(invoice.address.street);
+        expect(invoiceData.number).toBe(invoice.address.number);
+        expect(invoiceData.complement).toBe(invoice.address.complement);
+        expect(invoiceData.city).toBe(invoice.address.city);
+        expect(invoiceData.state).toBe(invoice.address.state);
+        expect(invoiceData.zipcode).toBe(invoice.address.zipCode);
+        expect(invoiceData.items[0].id).toBe(invoice.items[0].id.id);
+        expect(invoiceData.items[0].name).toBe(invoice.items[0].name);
+        expect(invoiceData.items[0].price).toBe(invoice.items[0].price);
+        expect(invoiceData.items[1].id).toBe(invoice.items[1].id.id);
+        expect(invoiceData.items[1].name).toBe(invoice.items[1].name);
+        expect(invoiceData.items[1].price).toBe(invoice.items[1].price);
+        expect(invoiceData.total).toBe(30);
     });
 
     it("should find an invoice", async () => {

@@ -1,3 +1,5 @@
+import {FindInvoiceUseCaseInputDTO} from "../usecase/find/find.usecase.dto";
+
 export interface FindInvoiceFacadeOutputDTO {
     id: string;
     name: string;
@@ -53,9 +55,9 @@ export interface GenerateInvoiceFacadeOutputDto {
     total: number;
 }
 
-export default interface InvoiceFacadeInterface {
-    create(
+export interface InvoiceFacadeInterface {
+    generate(
         invoice: GenerateInvoiceFacadeInputDto
     ): Promise<GenerateInvoiceFacadeOutputDto>;
-    find(id: string): Promise<FindInvoiceFacadeOutputDTO>;
+    find(id: FindInvoiceUseCaseInputDTO): Promise<FindInvoiceFacadeOutputDTO>;
 }

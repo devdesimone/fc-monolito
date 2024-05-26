@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Product from "../domain/product.entity";
-import { ProductModel } from "./product.model";
+import ProductModel from "./product.model";
 import ProductRepository from "./product.repository";
 
 describe("ProductRepository test", () => {
@@ -39,11 +39,13 @@ describe("ProductRepository test", () => {
       where: { id: productProps.id.id },
     });
 
-    expect(productProps.id.id).toEqual(productDb.id);
-    expect(productProps.name).toEqual(productDb.name);
-    expect(productProps.description).toEqual(productDb.description);
-    expect(productProps.purchasePrice).toEqual(productDb.purchasePrice);
-    expect(productProps.stock).toEqual(productDb.stock);
+    const result = productDb.dataValues;
+
+    expect(productProps.id.id).toEqual(result.id);
+    expect(productProps.name).toEqual(result.name);
+    expect(productProps.description).toEqual(result.description);
+    expect(productProps.purchasePrice).toEqual(result.purchasePrice);
+    expect(productProps.stock).toEqual(result.stock);
   });
 
   it("should find a product", async () => {

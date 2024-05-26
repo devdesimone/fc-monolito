@@ -4,8 +4,8 @@ import Invoice from "../domain/invoice.entity";
 import invoiceEntity from "../domain/invoice.entity";
 import Product from "../domain/product.entity";
 import InvoiceGateway from "../gateway/invoice.gateway";
-import { InvoiceModel } from "./invoice.model";
-import { InvoiceItemModel } from "./item.model";
+import InvoiceModel from "./invoice.model";
+import InvoiceItemModel from "./item.model";
 
 export default class InvoiceRepository implements InvoiceGateway {
     async create(invoice: invoiceEntity): Promise<void> {
@@ -39,7 +39,8 @@ export default class InvoiceRepository implements InvoiceGateway {
                 id,
             },
             include: [InvoiceItemModel],
-        }).then((invoice: InvoiceModel) => {
+        }).then((result: InvoiceModel) => {
+            const invoice = result.dataValues;
             return new Invoice({
                 id: new Id(invoice.id),
                 name: invoice.name,
@@ -53,12 +54,14 @@ export default class InvoiceRepository implements InvoiceGateway {
                     zipCode: invoice.zipcode,
                 }),
                 items: invoice.items.map(
-                    (item: any) =>
-                        new Product({
-                            id: new Id(item.id),
-                            name: item.name,
-                            price: item.price,
+                    (item: any) => {
+                        const itemData = item.dataValues;
+                     return new Product({
+                            id: new Id(itemData.id),
+                            name: itemData.name,
+                            price: itemData.price,
                         })
+                    }
                 ),
                 createdAt: invoice.createdAt,
             });
