@@ -15,7 +15,7 @@ productRoute.post("/", async (req: Request, res: Response) => {
             stock: req.body.stock,
         });
 
-        res.send(output);
+        res.status(201).send(output);
     } catch (err) {
         res.status(500).send(err);
     }

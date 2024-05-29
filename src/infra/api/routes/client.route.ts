@@ -22,7 +22,7 @@ clientRoute.post("/", async (req: Request, res: Response) => {
 
         const output = await usecase.add(clientDto);
 
-        res.send(output);
+        res.status(201).send(output);
     } catch (err) {
         res.status(500).send(err);
     }
