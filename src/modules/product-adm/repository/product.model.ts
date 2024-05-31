@@ -30,14 +30,4 @@ export default class ProductModel extends Model{
 
   @Column({allowNull: true})
   declare updateAt: Date;
-
-  // @ForeignKey(() => InvoiceModel)
-  // declare invoice_id: InvoiceModel;
-
-  // @BelongsTo(() => InvoiceModel)
-  // declare invoice: InvoiceModel;
-
-  // @ForeignKey(() => OrderModel)
-  // declare order_id: string;
-
 }

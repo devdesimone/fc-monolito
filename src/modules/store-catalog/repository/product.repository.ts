@@ -26,6 +26,7 @@ export default class ProductRepository implements ProductGateway {
                 id: id,
             },
         });
+
         const result = product.dataValues;
         return new Product({
             id: new Id(result.id),

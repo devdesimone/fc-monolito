@@ -1,10 +1,14 @@
-import { response } from 'express';
-import { app, sequelize } from '../express'
+import {app} from '../express'
 import request from 'supertest'
 import InvoiceItemModel from "../../../modules/invoice/repository/item.model";
 import InvoiceModel from "../../../modules/invoice/repository/invoice.model";
 import {Sequelize} from "sequelize-typescript";
 import ProductModel from "../../../modules/product-adm/repository/product.model";
+import TransactionModel from "../../../modules/payment/repository/transaction.model";
+import {v4 as uuidv4} from "uuid";
+import ProducStorageCatalogtModel from "../../../modules/store-catalog/repository/product.model";
+import {ClientModel} from "../../../modules/client-adm/repository/client.model";
+import ProductOrder from "../../../modules/checkout/repository/product.order.model";
 
 describe('E2E test for invoice', () => {
     let sequelize: Sequelize;
@@ -17,7 +21,7 @@ describe('E2E test for invoice', () => {
             sync: {force: true},
         });
 
-        sequelize.addModels([InvoiceItemModel, InvoiceModel, ProductModel]);
+        sequelize.addModels([ProductModel, ProducStorageCatalogtModel, ClientModel, InvoiceModel, InvoiceItemModel, TransactionModel, ProductOrder]);
         await sequelize.sync();
     });
 
@@ -40,10 +44,12 @@ describe('E2E test for invoice', () => {
                 "street": "Rua dos Bobos",
                 "zipCode": "08550-080"
             });
+        const productId = uuidv4();
+
         const product = await request(app)
             .post('/products')
             .send({
-                "id": "1",
+                "id": productId,
                 "name": "product",
                 "description": "description",
                 "purchasePrice": 100,
@@ -56,7 +62,7 @@ describe('E2E test for invoice', () => {
                 "clientId": client.body.id,
                 "products": [
                     {
-                        "productId": "1"
+                        "productId": product.body.id,
                     }
                 ]
             });
@@ -67,6 +73,6 @@ describe('E2E test for invoice', () => {
         expect(response.body.name).toBe('João da Silva')
         expect(response.body.items.length).toBe(1)
         expect(response.body.total).toBe(150)
-    }, 50000);
+    });
 
 });

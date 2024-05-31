@@ -18,7 +18,7 @@ export default class OrderRepository implements CheckoutGateway {
             }
         })
         try {
-            await OrderModel.create({
+            const model = await OrderModel.create({
                     id: order.id.id,
                     client: {
                         id: order.client.id.id,

@@ -9,43 +9,40 @@ import InvoiceItemModel from "./item.model";
 
 @Table({
     tableName: "invoices",
-    timestamps: false,
+    timestamps: true,
 })
 export default class InvoiceModel extends Model {
     @PrimaryKey
     @Column({ allowNull: false })
-    id: string;
+    declare id: string;
 
     @Column({ allowNull: false })
-    name: string;
+    declare name: string;
 
     @Column({ allowNull: false })
-    document: string;
+    declare document: string;
 
     @Column({ allowNull: false })
-    street: string;
+    declare street: string;
 
     @Column({ allowNull: false })
-    number: string;
+    declare number: string;
 
     @Column({ allowNull: false })
-    complement: string;
+    declare complement: string;
 
     @Column({ allowNull: false })
-    city: string;
+    declare city: string;
 
     @Column({ allowNull: false })
-    state: string;
+    declare state: string;
 
     @Column({ allowNull: false })
-    zipcode: string;
+    declare zipcode: string;
 
     @HasMany(() => InvoiceItemModel)
-    items: InvoiceItemModel[];
+    declare items: InvoiceItemModel[];
 
     @Column({ allowNull: false })
-    total: number;
-
-    @Column({ allowNull: false })
-    createdAt: Date;
+    declare total: number;
 }

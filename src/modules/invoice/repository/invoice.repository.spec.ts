@@ -29,7 +29,6 @@ describe("InvoiceRepository test", () => {
     it("should create a new invoice", async () => {
         const repository = new InvoiceRepository();
         const invoice = new Invoice({
-            id: new Id("1"),
             name: "Teste",
             document: "12345678901",
             address: new Address({
@@ -56,7 +55,7 @@ describe("InvoiceRepository test", () => {
         await repository.create(invoice);
 
         const result = await InvoiceModel.findOne({
-            where: {id: "1"},
+            where: {id: invoice.id.id},
             include: [InvoiceItemModel],
         });
 
@@ -84,7 +83,6 @@ describe("InvoiceRepository test", () => {
     it("should find an invoice", async () => {
         const repository = new InvoiceRepository();
         const invoice = new Invoice({
-            id: new Id("1"),
             name: "Teste",
             document: "12345678901",
             address: new Address({
