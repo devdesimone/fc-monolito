@@ -14,7 +14,7 @@ checkoutRoute.post("/", async (req: Request, res: Response) => {
         };
 
         const output = await usecase.execute(checkoutDto);
-
+        
         res.status(201).send(output);
     } catch (err) {
         console.log(err);

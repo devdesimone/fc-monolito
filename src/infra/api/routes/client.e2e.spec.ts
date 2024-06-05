@@ -15,7 +15,6 @@ describe('E2E test for client', () => {
             dialect: "sqlite",
             storage: ":memory:",
             logging: false,
-            sync: {force: true},
         });
 
         sequelize.addModels([ClientModel]);

@@ -9,6 +9,8 @@ import {v4 as uuidv4} from "uuid";
 import ProducStorageCatalogtModel from "../../../modules/store-catalog/repository/product.model";
 import {ClientModel} from "../../../modules/client-adm/repository/client.model";
 import ProductOrder from "../../../modules/checkout/repository/product.order.model";
+import ClientOrder from '../../../modules/checkout/repository/client.order.model';
+import OrderModel from '../../../modules/checkout/repository/order.model';
 
 describe('E2E test for invoice', () => {
     let sequelize: Sequelize;
@@ -18,10 +20,9 @@ describe('E2E test for invoice', () => {
             dialect: "sqlite",
             storage: ":memory:",
             logging: false,
-            sync: {force: true},
         });
 
-        sequelize.addModels([ProductModel, ProducStorageCatalogtModel, ClientModel, InvoiceModel, InvoiceItemModel, TransactionModel, ProductOrder]);
+        sequelize.addModels([ProductModel, ProducStorageCatalogtModel, ClientModel, ClientOrder, OrderModel, InvoiceModel, InvoiceItemModel, TransactionModel, ProductOrder]);
         await sequelize.sync();
     });
 

@@ -24,6 +24,7 @@ clientRoute.post("/", async (req: Request, res: Response) => {
 
         res.status(201).send(output);
     } catch (err) {
+        console.error(err);
         res.status(500).send(err);
     }
 });

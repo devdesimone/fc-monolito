@@ -9,6 +9,8 @@ import TransactionModel from "../../../modules/payment/repository/transaction.mo
 import {v4 as uuidv4} from 'uuid';
 import ProducStorageCatalogtModel from "../../../modules/store-catalog/repository/product.model";
 import ProductOrder from "../../../modules/checkout/repository/product.order.model";
+import ClientOrder from '../../../modules/checkout/repository/client.order.model';
+import OrderModel from '../../../modules/checkout/repository/order.model';
 
 
 describe('E2E test for checkout', () => {
@@ -21,7 +23,7 @@ describe('E2E test for checkout', () => {
             logging: false,
             sync: {force: true},
         });
-        sequelize.addModels([ProductModel, ProducStorageCatalogtModel, ClientModel, InvoiceModel, InvoiceItemModel, TransactionModel, ProductOrder]);
+        sequelize.addModels([ProductModel, ProducStorageCatalogtModel, ClientModel, ClientOrder, OrderModel, InvoiceModel, InvoiceItemModel, TransactionModel, ProductOrder]);
         await sequelize.sync();
     });
 
